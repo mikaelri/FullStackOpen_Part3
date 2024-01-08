@@ -77,9 +77,14 @@ app.post('/api/persons', (request, response) => {
   const body = request.body
 
   if (!body.name || !body.number) {
-    console.log('Invalid request: name or number is missing');
     return response.status(400).json({
       error:'name or number is missing'
+    })
+  }
+
+  if (persons.some(person => person.name === body.name)) {
+    return response.status(400).json({
+      error:'name must be unique'
     })
   }
 
@@ -88,6 +93,7 @@ app.post('/api/persons', (request, response) => {
     name: body.name,
     number: body.number
   }
+
 
   persons = persons.concat(person)
 
