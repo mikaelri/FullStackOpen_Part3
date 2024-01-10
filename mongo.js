@@ -45,5 +45,3 @@ if (name && number) {
         mongoose.connection.close()
       })
 }
-
-// lT2f1I21ldGZVGFm
