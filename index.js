@@ -22,7 +22,6 @@ app.get('/', (request, response) => {
   });
 
 app.get('/info', (request, response) => {
-
   const now = new Date()
 
   Person
@@ -59,38 +58,17 @@ app.delete('/api/persons/:id', (request, response) => {
   response.status(204).end()
 })
 
-const generateID = () => {
-  const maxId = persons.length > 0
-  ? Math.max(...persons.map(p => p.id))
-  : 0
-  return maxId +1
-}
-
 app.post('/api/persons', (request, response) => {
   const body = request.body
 
-  if (!body.name || !body.number) {
-    return response.status(400).json({
-      error:'name or number is missing'
-    })
-  }
-
-  if (persons.some(person => person.name === body.name)) {
-    return response.status(400).json({
-      error:'name must be unique'
-    })
-  }
-
-  const person = {
-    id: generateID(),
+  const person = new Person ({
     name: body.name,
     number: body.number
-  }
+  })
 
-
-  persons = persons.concat(person)
-
-  response.json(person)
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
 })
 
 const unknownEndpoint = (request, response) => {
