@@ -24,7 +24,6 @@ const Person = mongoose.model('Person', personSchema)
 const name = process.argv[3]
 const number = process.argv[4]
 
-
 if (name && number) {
     const person = new Person({
         name: name,
